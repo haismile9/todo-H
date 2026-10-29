@@ -1,5 +1,5 @@
+import React, { useState } from 'react'
 import Header from '@/components/Header'
-import React from 'react'
 import StatsAndFilters from '@/components/StatsAndFilters'
 import AddTask from '@/components/AddTask'
 import TaskList from '@/components/TaskList'
@@ -8,6 +8,8 @@ import { DateTimeFilter } from '@/components/DateTimeFilter'
 import Footer from '@/components/Footer'
 
 const HomePage = () => {
+  const [selectedStatus, setSelectedStatus] = useState('all')
+
   return (
 
     <div className="min-h-screen w-full relative">
@@ -26,13 +28,18 @@ const HomePage = () => {
             <Header/>
 
             {/* Thêm công việc */}
-            <AddTask/>
+            <AddTask />
 
             {/* Thống kê và bộ lọc */}
-            <StatsAndFilters/>
+            <StatsAndFilters
+              selectedStatus={selectedStatus}
+              onStatusChange={setSelectedStatus}
+            />
 
             {/* Danh sách công việc */}
-            <TaskList/>
+            <TaskList 
+              status={selectedStatus}
+            />
 
             {/* Phân trang và bộ lọc theo ngày */}
             <div className='flex flex-col items-center justify-center gap-6 sm:flex-row'>
