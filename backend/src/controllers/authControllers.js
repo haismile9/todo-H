@@ -3,9 +3,9 @@ import jwt from "jsonwebtoken";
 import bcrypt from "bcryptjs";
 
 
-const generateToken = (user) => {
+const generateToken = (id) => {
     return jwt.sign(
-        { id: user._id }, 
+        { id }, 
         process.env.JWT_SECRET, 
         { expiresIn: process.env.JWT_EXPIRE || '7d' }
     );
@@ -123,3 +123,4 @@ export const getMe = async (req, res) => {
     }
 
 };
+

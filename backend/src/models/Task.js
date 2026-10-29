@@ -16,6 +16,10 @@ const taskSchema = new mongoose.Schema(
             type: Date,
             default: null,
         },
+        commentCount: {
+        type: Number,
+        default: 0,
+    }
     }, 
     { 
         timestamps: true, // Tự động thêm createdAt và updatedAt

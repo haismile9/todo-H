@@ -25,10 +25,19 @@ export const createTask = async (req, res) => {
 
 export const updateTask = async (req, res) => {
     try {
-        const {title, status, completedAt} = req.body;
+        const {title, status} = req.body;
+
+        const updateData = { title, status };
+
+        if (status === "completed") {
+            updateData.completedAt = new Date();
+        } else {
+            updateData.completedAt = null;
+        }
+
         const updatedTask = await Task.findByIdAndUpdate(
             req.params.id,
-            { title, status, completedAt },
+            updateData,
             { new: true }
         );
         
@@ -45,11 +54,14 @@ export const updateTask = async (req, res) => {
 
 export const deleteTask = async (req, res) => {
     try {
-        const deletedTask = await Task.findByIdAndDelete(req.params.id);
+         const deletedTask = await Task.findByIdAndDelete(req.params.id);
         if (!deletedTask) {
             return res.status(404).json({ message: 'Công việc không tìm thấy' });
         }
         res.status(200).json({ message: 'Xóa công việc thành công' });
+        // Xóa tất cả bình luận liên quan đến task này
+        await Comment.deleteMany({ taskId: req.params.id });
+
     } catch (error) {
         console.error('Lỗi khi xóa công việc:', error);
         res.status(500).json({ message: 'Lỗi máy chủ nội bộ' });

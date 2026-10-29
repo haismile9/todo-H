@@ -26,9 +26,13 @@ export const createUser = async (req, res) => {
     
 export const updateUser = async (req, res) => {
     try {
-        const {name, email} = req.body;        
+        const {fullname, email} = req.body;        
+        const {id} = req.params;
+        const user = await User.findByIdAndUpdate(id, {fullname, email}, {new: true});
+        res.status(200).json(user);
     } catch (error) {
-        
+        console.error('Lỗi khi cập nhật người dùng:', error);
+        res.status(500).json({ message: 'Lỗi máy chủ nội bộ' });
     }
 }
 
